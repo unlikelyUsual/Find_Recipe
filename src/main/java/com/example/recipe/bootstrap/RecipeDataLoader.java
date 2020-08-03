@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -149,6 +150,18 @@ public class RecipeDataLoader implements CommandLineRunner {
 
         final String url = "https://www.simplyrecipes.com/wp-content/uploads/2018/07/Guacamole-LEAD-1-768x1075.jpg";
 
+        ByteArrayOutputStream os = getByteArrayOutputStream(url);
+
+        guacRecipe.setImage(os.toByteArray());
+
+        guacRecipe.setImageString(Base64.getEncoder().encodeToString(os.toByteArray()));
+
+        recipeList.add(guacRecipe);
+
+        return recipeList;
+    }
+
+    private ByteArrayOutputStream getByteArrayOutputStream(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder().url(url).build();
@@ -162,16 +175,9 @@ public class RecipeDataLoader implements CommandLineRunner {
         byte[] buffer = new byte[1024];
         int len;
 
-        // read bytes from the input stream and store them in buffer
         while ((len = inputStream.read(buffer)) != -1) {
-            // write bytes from the buffer into output stream
             os.write(buffer, 0, len);
         }
-
-        guacRecipe.setImage(os.toByteArray());
-
-        recipeList.add(guacRecipe);
-
-        return recipeList;
+        return os;
     }
 }
