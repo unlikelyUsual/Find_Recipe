@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class FindRecipeApplicationTests {
-
+	//Integration Testing for Spring Context (Default)
 	@Test
 	void contextLoads() {
 	}
