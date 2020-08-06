@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragment/layout :: layout (~{::body})}">
+<head>
+    <title>Recipes</title>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<div class="site-blocks-cover inner-page-cover bg-light mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="mb-0" th:text="${recipe.description}">Recipe</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="site-section pt-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center mb-5">
+                <h2 class="display-5 mb-5 text-black">Recipe Detail</h2>
+            </div>
+
+            <div class="d-flex flex-row col-sm-12">
+                <div class="d-flex col-sm-7 flex-column">
+                    <div class="col-12">
+                        <h2 class="display-5 mb-3 text-black">Ingredients</h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:each="ingredient : ${recipe.ingredients}"><span th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}"></span></li>
+                    </ul>
+                </div>
+                <div class="d-flex  col-sm-5 flex-column">
+                    <h2 class="display-5 mb-3 text-black">Misc </h2>
+                    <ul class="list-group">
+                        <li  class="list-group-item d-flex justify-content-between align-items-center" >
+                            Preparation Time
+                            <span class="badge badge-primary badge-pill" th:text="${recipe.prepTime} + ' minute(s)'">14</span>
+                        </li>
+                        <li  class="list-group-item d-flex justify-content-between align-items-center" >
+                            Cooking Time
+                            <span class="badge badge-primary badge-pill" th:text="${recipe.cookTime}+ ' minute(s)'">14</span>
+                        </li>
+                        <li  class="list-group-item d-flex justify-content-between align-items-center" >
+                             Servings
+                            <span class="badge badge-primary badge-pill" th:text="${recipe.serving}">14</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="site-section pt-3">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="display-5 mb-3 text-black">Directions</h2>
+            </div>
+            <div class="col-lg-10">
+                <p th:text="${recipe.directions}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error accusantium, deleniti repellendus ullam accusamus molestiae explicabo quo consequuntur assumenda, voluptatum!</p>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="display-5 mb-3 text-black">Notes</h2>
+            </div>
+            <div class="col-lg-10">
+                <p th:text="${recipe.notes.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error accusantium, deleniti repellendus ullam accusamus molestiae explicabo quo consequuntur assumenda, voluptatum!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>
