@@ -25,7 +25,8 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${recipe.description}">Card title</h5>
                     <p class="card-text" th:text="${#strings.abbreviate(recipe.directions,160)}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a th:href="'/recipe/' + ${recipe.id}" class="btn btn-primary">See Full Detail</a>
+                    <a th:href="'/recipe/' + ${recipe.id}" class="btn btn-primary mb-2">View Complete Recipe</a>
+                    <a th:href="'/recipe/modify/' + ${recipe.id}" class="btn btn-danger">Edit Recipe</a>
                 </div>
             </div>
         </div>

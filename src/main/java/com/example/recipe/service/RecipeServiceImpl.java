@@ -44,4 +44,11 @@ public class RecipeServiceImpl implements RecipeService {
         return savedObject;
     }
 
+    @Override
+    public RecipeCommand getRecipeCommonObjectById(Long id) {
+        Recipe recipe = this.getRecipeById(id);
+        if(recipe == null) throw new RuntimeException("Recipe is Not Saved");
+        return recipeMapper.entityToCommand(recipe);
+    }
+
 }

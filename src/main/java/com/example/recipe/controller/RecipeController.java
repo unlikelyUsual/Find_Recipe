@@ -41,4 +41,10 @@ public class RecipeController {
         return  "redirect:/recipe/"+ saveRecipe.getId();
     }
 
+    @GetMapping("recipe/modify/{id}")
+    String modifyRecipe(@PathVariable(name = "id") Long id , Model model) {
+        model.addAttribute("recipe",recipeService.getRecipeCommonObjectById(id));
+        return "recipe/recipeForm";
+    }
+
 }
