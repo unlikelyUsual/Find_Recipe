@@ -1,6 +1,7 @@
 package com.example.recipe.service;
 
 import com.example.recipe.domain.Recipe;
+import com.example.recipe.mappers.RecipeMapper;
 import com.example.recipe.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,8 @@ class RecipeServiceImplTest {
 
     private RecipeServiceImpl recipeService;
 
+    private RecipeMapper recipeMapper;
+
     @Mock
     private RecipeRepository recipeRepository;
 
@@ -24,7 +27,7 @@ class RecipeServiceImplTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeMapper);
 
     }
 
