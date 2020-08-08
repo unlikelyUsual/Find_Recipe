@@ -38,7 +38,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public RecipeCommand saveOrUpdateRecipe(RecipeCommand recipeCommand) {
+        if(recipeCommand.getId() != null){
+            Recipe dbRecipe = this.getRecipeById(recipeCommand.getId());
+            recipeCommand.setImage(dbRecipe.getImage());
+            recipeCommand.setImageString(dbRecipe.getImageString());
+        }
         Recipe recipe = recipeMapper.commandToEntity(recipeCommand);
+        recipeCommand.getIngredients().forEach(recipe::addIngredient);
         Recipe saveRecipe = recipeRepository.save(recipe);
         RecipeCommand savedObject = recipeMapper.entityToCommand(saveRecipe);
         return savedObject;

@@ -77,8 +77,28 @@
                             </div>
                         </div>
                         <h2 class="display-5">Ingredients</h2>
-                        <div class="row">
+                        <button  class="btn btn-success" id="addIngredient">Add Ingredients</button>
+                        <div class="d-flex flex-column" id="ingredientContainer">
                             <!-- to do Add Ingredients -->
+                            <input type="hidden" id="ingredientSize" th:value="${ #lists.size(recipe.ingredients) }"/>
+                            <div class="row" th:each="ingredient , iter : ${recipe.ingredients}">
+                                <div class="col-md-3 form-group">
+                                    <label>Amount:</label>
+                                    <input type="text" class="form-control" th:name="${'ingredients[' + iter.index + '].amount'}" th:value="${ingredient.amount}"/>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>UOM:</label>
+                                    <select class="form-control" th:name="${'ingredients[' + iter.index + '].unitOfMeasure.description'}" onchange="setId(this)">
+                                        <option value=""></option>
+                                        <option th:each="map:${uomMap}" th:text="${map.description}" th:id="${map.id}" th:value="${map.description}" th:selected="${ingredient.unitOfMeasure.description == map.description}"></option>
+                                    </select>
+                                    <input type="hidden" class="uomId" th:name="${'ingredients[' + iter.index + '].unitOfMeasure.id'}" th:value="${ingredient.unitOfMeasure.id}"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Description:</label>
+                                    <input type="text" class="form-control" th:name="${'ingredients[' + iter.index + '].description'}" th:value="${ingredient.description}"/>
+                                </div>
+                            </div>
                         </div>
                         <h2 class="display-5">Directions</h2>
                         <div class="row">
@@ -94,6 +114,27 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
+
+                <script type="template" id="ingredientTemplate">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label>Amount:</label>
+                            <input type="text" class="form-control" name="{{amountName}}"/>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>UOM:</label>
+                            <select class="form-control" name="{{uomName}}" onchange="setId(this)">
+                                <option value=""></option>
+                                <option th:each="map:${uomMap}" th:text="${map.description}" th:id="${map.id}" th:value="${map.description}"></option>
+                            </select>
+                            <input type="hidden" class="uomId" name="{{uomId}}" value=""/>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Description:</label>
+                            <input type="text" class="form-control" name="{{descriptionName}}"/>
+                        </div>
+                    </div>
+                </script>
             </div>
         </div>
     </div>

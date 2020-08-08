@@ -7,7 +7,9 @@ import com.example.recipe.enums.Difficulty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -34,7 +36,7 @@ public class RecipeCommand {
 
     private Difficulty difficulty;
 
-    private Set<Ingredient> ingredients = new HashSet<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     private Notes notes;
 
