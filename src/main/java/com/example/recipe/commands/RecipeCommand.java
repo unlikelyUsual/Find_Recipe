@@ -45,7 +45,7 @@ public class RecipeCommand {
     @NotBlank
     private String directions;
 
-    private byte[] image;
+    private Byte[] image;
 
     private Difficulty difficulty;
 

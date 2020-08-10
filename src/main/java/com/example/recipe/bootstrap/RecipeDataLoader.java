@@ -153,7 +153,7 @@ public class RecipeDataLoader implements CommandLineRunner {
 
         ByteArrayOutputStream os = getByteArrayOutputStream(url);
 
-        guacRecipe.setImage(os.toByteArray());
+        guacRecipe.setImage(getBytes(os));
 
         guacRecipe.setImageString(Base64.getEncoder().encodeToString(os.toByteArray()));
 
@@ -223,13 +223,24 @@ public class RecipeDataLoader implements CommandLineRunner {
 
         ByteArrayOutputStream outputStream = getByteArrayOutputStream(tacosImage);
 
-        tacosRecipe.setImage(outputStream.toByteArray());
+        Byte[] bytes = getBytes(outputStream);
+
+        tacosRecipe.setImage(bytes);
 
         tacosRecipe.setImageString(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
 
         recipeList.add(tacosRecipe);
 
         return recipeList;
+    }
+
+    private Byte[] getBytes(ByteArrayOutputStream outputStream) {
+        Byte[] bytes = new Byte[outputStream.size()];
+        int i = 0;
+        for (byte b : outputStream.toByteArray()){
+            bytes[i++] = b;
+        }
+        return bytes;
     }
 
     private ByteArrayOutputStream getByteArrayOutputStream(String url) throws IOException {

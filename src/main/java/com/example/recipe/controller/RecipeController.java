@@ -12,9 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Base64;
 
 @Controller
 @Slf4j
@@ -57,11 +61,27 @@ public class RecipeController {
         return  "redirect:/recipe/"+ saveRecipe.getId();
     }
 
-    @GetMapping("recipe/modify/{id}")
+    @GetMapping("/recipe/modify/{id}")
     String modifyRecipe(@PathVariable(name = "id") Long id , Model model) {
         model.addAttribute("uomMap",unitOfMeasureService.findAll());
         model.addAttribute("recipe",recipeService.getRecipeCommonObjectById(id));
         return "recipe/recipeForm";
+    }
+
+    @PostMapping("/recipe/uploadImage")
+    String uploadRecipeImage(MultipartHttpServletRequest multipartHttpServletRequest) throws IOException {
+         Long id = multipartHttpServletRequest.getParameter("recipe") != null ? Long.valueOf(multipartHttpServletRequest.getParameter("recipe") ) : null;
+         Recipe recipe = recipeService.getRecipeById(id);
+         MultipartFile file = multipartHttpServletRequest.getFile("file");
+         Byte[] bytes = new Byte[file.getBytes().length];
+         int i = 0;
+         for (byte b : file.getBytes()){
+             bytes[i++] = b;
+         }
+         recipe.setImage(bytes);
+         recipe.setImageString(Base64.getEncoder().encodeToString(file.getBytes()));
+         recipeService.save(recipe);
+        return "";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

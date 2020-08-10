@@ -61,4 +61,9 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeMapper.entityToCommand(recipe);
     }
 
+    @Override
+    public Recipe save(Recipe recipe) {
+        return recipeRepository.save(recipe);
+    }
+
 }
