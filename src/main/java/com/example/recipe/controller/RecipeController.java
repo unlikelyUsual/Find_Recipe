@@ -6,13 +6,18 @@ import com.example.recipe.exceptions.NotFoundException;
 import com.example.recipe.service.IngredientService;
 import com.example.recipe.service.RecipeService;
 import com.example.recipe.service.UnitOfMeasureService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 @Controller
+@Slf4j
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -43,7 +48,11 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/form")
-    String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
+    String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand recipeCommand , BindingResult result ) {
+        if(result.hasErrors()){
+            result.getAllErrors().forEach(objectError -> log.error(objectError.toString()));
+            return "recipe/recipeForm";
+        }
         RecipeCommand saveRecipe = recipeService.saveOrUpdateRecipe(recipeCommand);
         return  "redirect:/recipe/"+ saveRecipe.getId();
     }
@@ -60,8 +69,9 @@ public class RecipeController {
     ModelAndView handleNotFoundException(Exception exception){
         ModelAndView modelAndView  = new ModelAndView();
         modelAndView.setViewName("/errors/404");
-        modelAndView.addObject("exception",exception.getMessage());
+        modelAndView.addObject("message",exception.getMessage());
         return modelAndView;
     }
+
 
 }

@@ -6,7 +6,11 @@ import com.example.recipe.domain.Notes;
 import com.example.recipe.enums.Difficulty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,18 +22,27 @@ public class RecipeCommand {
 
     private Long id;
 
+    @NotBlank
     private String description;
 
+    @Min(2)
+    @Max(999)
     private Integer prepTime;
 
+    @Min(5)
+    @Max(999)
     private Integer cookTime;
 
+    @Min(1)
+    @Max(100)
     private Integer serving;
 
     private String source;
 
+    @URL
     private String url;
 
+    @NotBlank
     private String directions;
 
     private byte[] image;

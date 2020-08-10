@@ -40,7 +40,7 @@ class IndexControllerTest {
     @SneakyThrows
     @Test
     void mockMVCTest(){
-        MockMvc mockMvc =  MockMvcBuilders.standaloneSetup(indexController).build();
+        MockMvc mockMvc =  MockMvcBuilders.standaloneSetup(indexController).setControllerAdvice(new ControllerAdviceHandler()).build();
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
