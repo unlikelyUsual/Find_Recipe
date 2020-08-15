@@ -9,7 +9,9 @@ import com.example.recipe.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -64,6 +66,14 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe save(Recipe recipe) {
         return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public List<RecipeCommand> getRecipesByDescription(String description) {
+        List<RecipeCommand> commands = new ArrayList<>();
+        recipeRepository.findAllByDescriptionLike(description)
+                .forEach(recipe -> commands.add(recipeMapper.entityToCommand(recipe)));
+        return commands;
     }
 
 }

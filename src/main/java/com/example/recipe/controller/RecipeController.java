@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -69,6 +71,7 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe/uploadImage")
+    @ResponseBody
     String uploadRecipeImage(MultipartHttpServletRequest multipartHttpServletRequest) throws IOException {
          Long id = multipartHttpServletRequest.getParameter("recipe") != null ? Long.valueOf(multipartHttpServletRequest.getParameter("recipe") ) : null;
          Recipe recipe = recipeService.getRecipeById(id);
@@ -82,6 +85,20 @@ public class RecipeController {
          recipe.setImageString(Base64.getEncoder().encodeToString(file.getBytes()));
          recipeService.save(recipe);
         return "";
+    }
+
+    @GetMapping("/recipe/search")
+    String getRecipeSearchPage(){
+        return "recipe/searchRecipe";
+    }
+
+    @PostMapping("/recipe/search")
+    @ResponseBody
+    List<RecipeCommand> searchRecipe(@org.jetbrains.annotations.NotNull @RequestBody RecipeCommand recipeCommand) {
+        List<RecipeCommand> recipes = new ArrayList<>();
+        if(recipeCommand.getDescription() == null) recipeCommand.setDescription("");
+        recipes = recipeService.getRecipesByDescription(recipeCommand.getDescription());
+        return recipes;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
