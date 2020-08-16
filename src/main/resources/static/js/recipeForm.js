@@ -57,13 +57,38 @@ $(document).ready(()=>{
             return await req.json();
         };
 
+        const displayRecipes = (recipes)=>{
+          const template = $('#recipeTemplate').html();
+          const block = $('.recipe-block');
+          const noDataBlock = $('.no-data');
+          block.find('.card').remove();
+          let appendCards = "";
+          if(Array.isArray(recipes) && recipes.length !== 0){
+          noDataBlock.hide();
+          recipes.forEach(recipe=>{
+             let src = "/images/1x/no-photo.png";
+             if(recipe.imageString !== undefined && recipe.imageString != null && recipe.imageString !== ''){
+                 src = "data:image/png;base64, " +recipe.imageString;
+             }
+             appendCards+= template
+                           .replace(/{{src}}/g,src)
+                           .replace(/{{description}}/g,recipe.description)
+                           .replace(/{{content}}/g, recipe.directions.substring(0,160) + (recipe.directions.length > 160  ?  "..." : "" )   )
+                           .replace(/{{editLink}}/g,"/recipe/"+recipe.id)
+                           .replace(/{{viewLink}}/g,"/recipe/modify/" + recipe.id);
+             });
+          } else noDataBlock.show();
+          block.append(appendCards);
+        };
+
         $('#searchBtn').on('click',function (ev) {
            ev.preventDefault();
            const keyWord = $('#searchKeyField')
             if( keyWord.val() !== undefined){
                 searchRecipe(keyWord.val())
                     .then(res=>{
-                       console.log(res);
+                       //console.log(res);
+                       displayRecipes(res);
                     })
                     .catch(err=>console.log(err));
             }

@@ -23,7 +23,22 @@
 
 <div class="site-section pt-3">
     <div class="container">
+        <div class="no-data"><span class="para-lead">Found 0 Recipe(s).</span></div>
+        <div class="row recipe-block"></div>
     </div>
 </div>
+
+<script type="template" id="recipeTemplate">
+    <div class="card text-center" style="width: 20rem;">
+        <img src="{{src}}" style="height: 21rem"  class="card-img" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{description}}</h5>
+            <p class="card-text">{{content}}</p>
+            <a href="{{viewLink}}" class="btn btn-primary mb-2">View Complete Recipe</a>
+            <a href="{{editLink}}" class="btn btn-danger">Edit Recipe</a>
+        </div>
+    </div>
+</script>
+
 </body>
 </html>

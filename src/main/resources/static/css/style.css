@@ -1001,3 +1001,12 @@ a {
   grid-column-gap: 2em;
   grid-row-gap: 4em;
 }
+
+.no-data span{
+  position : relative;
+  top:50%;
+  left : 44%;
+  background: #ccc;
+  padding: .5em;
+  border-radius: 10px;
+}
