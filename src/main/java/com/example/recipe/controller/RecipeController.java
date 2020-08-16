@@ -2,10 +2,12 @@ package com.example.recipe.controller;
 
 import com.example.recipe.commands.RecipeCommand;
 import com.example.recipe.domain.Recipe;
+import com.example.recipe.dto.RecipeDTO;
 import com.example.recipe.exceptions.NotFoundException;
 import com.example.recipe.service.IngredientService;
 import com.example.recipe.service.RecipeService;
 import com.example.recipe.service.UnitOfMeasureService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -94,10 +96,12 @@ public class RecipeController {
 
     @PostMapping("/recipe/search")
     @ResponseBody
-    List<RecipeCommand> searchRecipe(@org.jetbrains.annotations.NotNull @RequestBody RecipeCommand recipeCommand) {
-        List<RecipeCommand> recipes = new ArrayList<>();
+    List<RecipeDTO> searchRecipe(@org.jetbrains.annotations.NotNull @RequestBody RecipeCommand recipeCommand)  throws Exception{
+        List<RecipeDTO> recipes = new ArrayList<>();
         if(recipeCommand.getDescription() == null) recipeCommand.setDescription("");
         recipes = recipeService.getRecipesByDescription(recipeCommand.getDescription());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValueAsString(recipes);
         return recipes;
     }
 

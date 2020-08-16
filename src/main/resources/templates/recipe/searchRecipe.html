@@ -11,8 +11,10 @@
         <div class="row align-items-center">
             <div class="col-12 text-center">
                 <h1>Search Recipe</h1>
-                <input type="text" class="form-control" placeholder="Search" id="searchKeyField">
-                <button class="btn btn-primary">Go</button>
+                <form onsubmit="return false" class="form-inline">
+                    <input type="text" class="form-control-lg mr-3" placeholder="Search" id="searchKeyField" style="width : 88%">
+                    <button class="btn btn-primary py-3" id="searchBtn">Search</button>
+                </form>
             </div>
         </div>
     </div>

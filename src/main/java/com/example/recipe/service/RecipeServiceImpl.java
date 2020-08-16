@@ -3,9 +3,11 @@ package com.example.recipe.service;
 
 import com.example.recipe.commands.RecipeCommand;
 import com.example.recipe.domain.Recipe;
+import com.example.recipe.dto.RecipeDTO;
 import com.example.recipe.exceptions.NotFoundException;
 import com.example.recipe.mappers.RecipeMapper;
 import com.example.recipe.repositories.RecipeRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -69,11 +71,15 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<RecipeCommand> getRecipesByDescription(String description) {
-        List<RecipeCommand> commands = new ArrayList<>();
-        recipeRepository.findAllByDescriptionLike(description)
-                .forEach(recipe -> commands.add(recipeMapper.entityToCommand(recipe)));
-        return commands;
+    public List<RecipeDTO> getRecipesByDescription(String description) {
+        List<RecipeDTO> dtoList = new ArrayList<>();
+        recipeRepository.findByDescriptionContainingIgnoreCase(description)
+                .forEach(recipe -> {
+                    RecipeDTO dto = new RecipeDTO();
+                    BeanUtils.copyProperties(recipe,dto);
+                    dtoList.add(dto);
+                });
+        return dtoList;
     }
 
 }

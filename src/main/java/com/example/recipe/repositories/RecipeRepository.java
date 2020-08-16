@@ -10,5 +10,5 @@ public interface RecipeRepository extends CrudRepository<Recipe,Long> {
 
     Optional<Recipe> findByDescription(String description);
 
-    List<Recipe> findAllByDescriptionLike(String description);
+    List<Recipe> findByDescriptionContainingIgnoreCase(String description);
 }

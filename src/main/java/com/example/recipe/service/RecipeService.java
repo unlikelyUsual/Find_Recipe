@@ -2,6 +2,7 @@ package com.example.recipe.service;
 
 import com.example.recipe.commands.RecipeCommand;
 import com.example.recipe.domain.Recipe;
+import com.example.recipe.dto.RecipeDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,6 @@ public interface RecipeService  {
 
     Recipe save(Recipe recipe);
 
-    List<RecipeCommand> getRecipesByDescription(String description);
+    List<RecipeDTO> getRecipesByDescription(String description);
 
 }

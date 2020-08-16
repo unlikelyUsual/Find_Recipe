@@ -44,6 +44,30 @@ $(document).ready(()=>{
                 .catch(err=>console.log(err));
         }
     });
+
+      const searchRecipe = async (keyWord) =>{
+           const req = await fetch('/recipe/search',{
+                method : 'POST',
+                headers : {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+                body : JSON.stringify({ 'description' : keyWord })
+            });
+            return await req.json();
+        };
+
+        $('#searchBtn').on('click',function (ev) {
+           ev.preventDefault();
+           const keyWord = $('#searchKeyField')
+            if( keyWord.val() !== undefined){
+                searchRecipe(keyWord.val())
+                    .then(res=>{
+                       console.log(res);
+                    })
+                    .catch(err=>console.log(err));
+            }
+        });
 });
 
 function setId(select) {
