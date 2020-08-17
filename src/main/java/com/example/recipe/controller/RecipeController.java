@@ -96,7 +96,7 @@ public class RecipeController {
 
     @PostMapping("/recipe/search")
     @ResponseBody
-    List<RecipeDTO> searchRecipe(@org.jetbrains.annotations.NotNull @RequestBody RecipeCommand recipeCommand)  throws Exception{
+    List<RecipeDTO> searchRecipe(@RequestBody RecipeCommand recipeCommand)  throws Exception{
         List<RecipeDTO> recipes = new ArrayList<>();
         if(recipeCommand.getDescription() == null) recipeCommand.setDescription("");
         recipes = recipeService.getRecipesByDescription(recipeCommand.getDescription());
