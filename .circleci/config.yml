@@ -43,4 +43,3 @@ jobs:
       - store_artifacts:
           path: target/classes
           destination: sample-springboot-api
-  view rawconfig.yml hosted with ❤ by GitHub
