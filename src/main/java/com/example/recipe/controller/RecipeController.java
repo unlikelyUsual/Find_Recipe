@@ -4,6 +4,7 @@ import com.example.recipe.commands.RecipeCommand;
 import com.example.recipe.domain.Recipe;
 import com.example.recipe.dto.RecipeDTO;
 import com.example.recipe.exceptions.NotFoundException;
+import com.example.recipe.service.CategoryService;
 import com.example.recipe.service.IngredientService;
 import com.example.recipe.service.RecipeService;
 import com.example.recipe.service.UnitOfMeasureService;
@@ -31,11 +32,13 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
     private final UnitOfMeasureService unitOfMeasureService;
+    private final CategoryService categoryService;
 
-    public RecipeController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService unitOfMeasureService) {
+    public RecipeController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService unitOfMeasureService, CategoryService categoryService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.unitOfMeasureService = unitOfMeasureService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/recipe/{id}")
@@ -50,6 +53,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/create")
     String getRecipeAddPage(Model model) {
+        model.addAttribute("categories",categoryService.fetchAllCategory());
         model.addAttribute("uomMap",unitOfMeasureService.findAll());
         model.addAttribute("recipe",new RecipeCommand());
         return "recipe/recipeForm";
@@ -67,6 +71,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/modify/{id}")
     String modifyRecipe(@PathVariable(name = "id") Long id , Model model) {
+        model.addAttribute("categories",categoryService.fetchAllCategory());
         model.addAttribute("uomMap",unitOfMeasureService.findAll());
         model.addAttribute("recipe",recipeService.getRecipeCommonObjectById(id));
         return "recipe/recipeForm";
@@ -96,7 +101,7 @@ public class RecipeController {
 
     @PostMapping("/recipe/search")
     @ResponseBody
-    List<RecipeDTO> searchRecipe(@org.jetbrains.annotations.NotNull @RequestBody RecipeCommand recipeCommand)  throws Exception{
+    List<RecipeDTO> searchRecipe(@RequestBody RecipeCommand recipeCommand)  throws Exception{
         List<RecipeDTO> recipes = new ArrayList<>();
         if(recipeCommand.getDescription() == null) recipeCommand.setDescription("");
         recipes = recipeService.getRecipesByDescription(recipeCommand.getDescription());
