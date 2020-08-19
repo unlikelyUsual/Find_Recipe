@@ -8,7 +8,6 @@ import com.example.recipe.service.CategoryService;
 import com.example.recipe.service.IngredientService;
 import com.example.recipe.service.RecipeService;
 import com.example.recipe.service.UnitOfMeasureService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -102,11 +100,9 @@ public class RecipeController {
     @PostMapping("/recipe/search")
     @ResponseBody
     List<RecipeDTO> searchRecipe(@RequestBody RecipeCommand recipeCommand)  throws Exception{
-        List<RecipeDTO> recipes = new ArrayList<>();
+        List<RecipeDTO> recipes;
         if(recipeCommand.getDescription() == null) recipeCommand.setDescription("");
         recipes = recipeService.getRecipesByDescription(recipeCommand.getDescription());
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValueAsString(recipes);
         return recipes;
     }
 

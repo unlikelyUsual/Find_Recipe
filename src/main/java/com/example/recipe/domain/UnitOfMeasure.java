@@ -1,6 +1,7 @@
 package com.example.recipe.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class UnitOfMeasure {
 
     @Id
@@ -19,4 +21,8 @@ public class UnitOfMeasure {
 
     private String description;
 
+    public UnitOfMeasure(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 }
