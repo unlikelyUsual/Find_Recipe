@@ -37,10 +37,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe getRecipeById(Long id) {
-        if(!recipeRepository.findById(id).isPresent()){
+        Recipe recipe = recipeRepository.findById(id).orElse(null);
+        if(recipe == null){
             throw new NotFoundException("Recipe With ID " + id + " Not Found");
         }
-        return recipeRepository.findById(id).get();
+        return recipe;
     }
 
     @Override
@@ -54,14 +55,13 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipe = recipeMapper.commandToEntity(recipeCommand);
         recipeCommand.getIngredients().forEach(recipe::addIngredient);
         Recipe saveRecipe = recipeRepository.save(recipe);
-        RecipeCommand savedObject = recipeMapper.entityToCommand(saveRecipe);
-        return savedObject;
+        return recipeMapper.entityToCommand(saveRecipe);
     }
 
     @Override
     public RecipeCommand getRecipeCommonObjectById(Long id) {
         Recipe recipe = this.getRecipeById(id);
-        if(recipe == null) throw new RuntimeException("Recipe is Not Saved");
+        if(recipe == null) throw new NotFoundException("Recipe Not found");
         return recipeMapper.entityToCommand(recipe);
     }
 
