@@ -9,6 +9,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +21,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+@Profile({"default","h2"})
 @Component
 public class RecipeDataLoader implements CommandLineRunner {
 

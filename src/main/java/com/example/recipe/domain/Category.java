@@ -26,4 +26,8 @@ public class Category {
         this.id = id;
         this.description = description;
     }
+
+    public Category(String description) {
+        this.description = description;
+    }
 }

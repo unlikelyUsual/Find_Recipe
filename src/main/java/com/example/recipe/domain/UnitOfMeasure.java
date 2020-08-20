@@ -25,4 +25,8 @@ public class UnitOfMeasure {
         this.id = id;
         this.description = description;
     }
+
+    public UnitOfMeasure(String description) {
+        this.description = description;
+    }
 }
