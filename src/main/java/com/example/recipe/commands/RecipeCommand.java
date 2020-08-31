@@ -54,4 +54,8 @@ public class RecipeCommand {
     private List<Category> categories = new ArrayList<>();
 
     private String imageString;
+
+    public boolean isNew() {
+        return this.id == null;
+    }
 }
